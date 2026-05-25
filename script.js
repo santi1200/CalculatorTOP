@@ -62,15 +62,19 @@ function makeNumBttns()
         number.style.width = "20%"
         number.style.margin = "5px"
         number.addEventListener('click', () => {
-            screen.textContent += number.textContent;
+            
 
             if(numberTwo === "" )
             {
-                 numberOne = screen.textContent;
+                screen.textContent += number.textContent;
+                numberOne = screen.textContent;
             }
 
             if(sign != ""  )
             {
+                screen.textContent = "";
+                screen.textContent += number.textContent;
+
                 numberTwo = screen.textContent;
             }
         })
@@ -83,23 +87,24 @@ makeNumBttns();
 
 const plus = document.querySelector("#plus");
 plus.addEventListener('click', () => {
+    if(numberOne != "" && numberTwo != "")
+    {
+        screen.textContent = "";
+        numberOne = operator(sign, numberOne, numberTwo)
+        screen.textContent = numberOne;
+    }
    
-    sign = "+";
-    screen.textContent = "";
+    sign = plus.textContent ;
     numberTwo = 0;
     
-}
-
-)
+})
 
 const result = document.querySelector("#equal");
 result.addEventListener('click', () => {
     
     screen.textContent = ""
     screen.textContent = operator(sign,numberOne, numberTwo);
-    numberOne = "";
-    numberTwo = "";
-    sign = "";
+   
     
 })
 
