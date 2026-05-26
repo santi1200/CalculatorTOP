@@ -3,7 +3,7 @@ function add(a,b)
     return a + b;
 }
 
-function substract(a,b)
+function subtract(a,b)
 {
     return a - b;
 }
@@ -51,7 +51,8 @@ function operator(operator, numOne, numTwo)
 let numberOne = "";
 let numberTwo = "";
 let sign = "";
-
+let clearScreen = false;
+let done = false;
 
 const screen = document.querySelector(".screen")
 const bttnsContainer = document.querySelector(".buttons")
@@ -63,26 +64,28 @@ function makeNumBttns()
         const number = document.createElement("button");
         number.textContent = i;
         number.addEventListener('click', () => {
-
-            if(sign === "=")
+            if(done === true)
             {
+                done = false
+                screen.textContent = "";
                 sign = "";
+                numberOne = "";
                 numberTwo = "";
-                screen.textContent = "";
-                screen.textContent += number.textContent;
-                numberOne = screen.textContent;
-                
             }
 
-             if(numberTwo === "" )
+
+             if(sign === "" )
             {
                 screen.textContent += number.textContent;
                 numberOne = screen.textContent;
             }
-
-            if(sign != ""  )
+            else
             {
-                screen.textContent = "";
+                if(clearScreen === true)
+                {
+                    screen.textContent = "";
+                    clearScreen = false;
+                }
                 screen.textContent += number.textContent;
                 numberTwo = screen.textContent;
             }
@@ -107,52 +110,33 @@ const clear = document.querySelector("#clear");
 
 function signPressed(button)
 {
+  clearScreen = true;
+  done = false;
  if(numberOne != "" && numberTwo != "")
     {
         screen.textContent = "";
         numberOne = operator(sign, numberOne, numberTwo)
         screen.textContent = numberOne;
+        numberTwo = "";
     }
    
     sign = button.textContent ;
-    numberTwo = 0;
+    
 }
 
 
-plus.addEventListener('click', () => {
-   signPressed(plus);
-})
-
-
-minus.addEventListener('click', () => {
-   signPressed(minus);
-})
-
-mult.addEventListener('click', () => {
-   signPressed(mult);
-})
-
-div.addEventListener('click', () => {
-   signPressed(div);
-})
-
-clear.addEventListener('click', () =>
-{
-    screen.textContent = "";
-    sign = "";
-    numberOne = "";
-    numberTwo = "";
-
-})
+[plus, minus, mult, div].forEach(button => {
+    button.addEventListener("click", () => {
+        signPressed(button);
+    });
+});
 
 result.addEventListener('click', () => {
     if(sign != ""  && numberTwo != "")
     {
         screen.textContent = "";
         screen.textContent = operator(sign,numberOne, numberTwo);
+        done = true;
     }
-
-
    
 })
-
