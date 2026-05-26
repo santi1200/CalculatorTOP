@@ -15,7 +15,11 @@ function multiply(a, b)
 
 function divide(a, b)
 {
-    return a / b;
+    if(b === 0)
+    {
+        return "Sorry, you can't divide by 0"
+    }
+    return Number(a / b).toFixed(2);
 }
 
 
@@ -38,7 +42,7 @@ function operator(operator, numOne, numTwo)
             return (divide(numOne, numTwo));
             
         default:
-            console.log("you inserted an invalid operator");
+            return "you inserted an invalid operator";
     }
     
 
@@ -50,7 +54,7 @@ let sign = "";
 
 
 const screen = document.querySelector(".screen")
-const numbersContainer = document.querySelector(".numbers")
+const bttnsContainer = document.querySelector(".buttons")
 
 function makeNumBttns()
 {
@@ -58,13 +62,19 @@ function makeNumBttns()
     {
         const number = document.createElement("button");
         number.textContent = i;
-        number.style.height = "25%"
-        number.style.width = "20%"
-        number.style.margin = "5px"
         number.addEventListener('click', () => {
-            
 
-            if(numberTwo === "" )
+            if(sign === "=")
+            {
+                sign = "";
+                numberTwo = "";
+                screen.textContent = "";
+                screen.textContent += number.textContent;
+                numberOne = screen.textContent;
+                
+            }
+
+             if(numberTwo === "" )
             {
                 screen.textContent += number.textContent;
                 numberOne = screen.textContent;
@@ -74,37 +84,75 @@ function makeNumBttns()
             {
                 screen.textContent = "";
                 screen.textContent += number.textContent;
-
                 numberTwo = screen.textContent;
             }
         })
-        numbersContainer.appendChild(number)
+        bttnsContainer.appendChild(number)
     }
 
 }
 
+
+
 makeNumBttns();
 
+
+
 const plus = document.querySelector("#plus");
-plus.addEventListener('click', () => {
-    if(numberOne != "" && numberTwo != "")
+const minus = document.querySelector("#minus");
+const mult = document.querySelector("#multiply");
+const div = document.querySelector("#divide");
+const result = document.querySelector("#equal");
+const clear = document.querySelector("#clear");
+
+function signPressed(button)
+{
+ if(numberOne != "" && numberTwo != "")
     {
         screen.textContent = "";
         numberOne = operator(sign, numberOne, numberTwo)
         screen.textContent = numberOne;
     }
    
-    sign = plus.textContent ;
+    sign = button.textContent ;
     numberTwo = 0;
-    
+}
+
+
+plus.addEventListener('click', () => {
+   signPressed(plus);
 })
 
-const result = document.querySelector("#equal");
+
+minus.addEventListener('click', () => {
+   signPressed(minus);
+})
+
+mult.addEventListener('click', () => {
+   signPressed(mult);
+})
+
+div.addEventListener('click', () => {
+   signPressed(div);
+})
+
+clear.addEventListener('click', () =>
+{
+    screen.textContent = "";
+    sign = "";
+    numberOne = "";
+    numberTwo = "";
+
+})
+
 result.addEventListener('click', () => {
-    
-    screen.textContent = ""
-    screen.textContent = operator(sign,numberOne, numberTwo);
+    if(sign != ""  && numberTwo != "")
+    {
+        screen.textContent = "";
+        screen.textContent = operator(sign,numberOne, numberTwo);
+    }
+
+
    
-    
 })
 
