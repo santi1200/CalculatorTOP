@@ -34,7 +34,7 @@ function operator(operator, numOne, numTwo)
             return (add(numOne, numTwo));
     
         case "-":  
-            return (substract(numOne, numTwo));
+            return (subtract(numOne, numTwo));
         case "*":
             return (multiply(numOne, numTwo));
             
@@ -95,11 +95,7 @@ function makeNumBttns()
 
 }
 
-
-
 makeNumBttns();
-
-
 
 const plus = document.querySelector("#plus");
 const minus = document.querySelector("#minus");
@@ -124,7 +120,6 @@ function signPressed(button)
     
 }
 
-
 [plus, minus, mult, div].forEach(button => {
     button.addEventListener("click", () => {
         signPressed(button);
@@ -138,5 +133,12 @@ result.addEventListener('click', () => {
         screen.textContent = operator(sign,numberOne, numberTwo);
         done = true;
     }
-   
+})
+
+
+clear.addEventListener('click', () => {
+     screen.textContent = "";
+                sign = "";
+                numberOne = "";
+                numberTwo = "";
 })
